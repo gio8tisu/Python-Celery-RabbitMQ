@@ -1,3 +1,9 @@
 import os
 broker_url = os.environ.get("CELERY_BROKER_URL", "amqp://");
-result_backend = os.environ.get("CELERY_BACKEND", "rpc://");
+result_backend = "mongodb://results:27017/"
+mongodb_backend_settings = {
+    "database": "celery-results",
+    "user": "admin",
+    "password": "password",
+    "taskmeta_collection": "my_taskmeta_collection",
+}

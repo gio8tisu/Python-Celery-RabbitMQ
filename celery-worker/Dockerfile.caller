@@ -8,7 +8,9 @@ ENV CELERY_BROKER_URL="$CELERY_BROKER_URL"
 RUN groupadd user && useradd --create-home --home-dir /home/user -g user user
 WORKDIR /home/user
 
-RUN pip install celery=="$CELERY_VERSION"
+RUN pip install \
+    celery=="$CELERY_VERSION" \
+    pymongo
 
 COPY . .
 

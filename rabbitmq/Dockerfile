@@ -1,0 +1,11 @@
+FROM rabbitmq:3.8-alpine
+
+COPY rabbitmq.conf /etc/rabbitmq/rabbitmq.conf
+EXPOSE 4369 5671 5672 15691 15692 25672
+
+ARG RABBITMQ_HOSTNAME=broker
+ENV RABBITMQ_HOSTNAME="$RABBITMQ_HOSTNAME"
+ARG RABBITMQ_NAME=rabbit
+ENV RABBITMQ_NAME="$RABBITMQ_NAME"
+
+CMD ["rabbitmq-server", "--hostname=$RABBITMQ_HOSTNAME", "--name=$RABBITMQ_NAME"]

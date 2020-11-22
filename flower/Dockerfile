@@ -14,7 +14,6 @@ RUN pip install \
     flower
 
 COPY flowerconfig.py .
-COPY test_celery test_celery
 
 USER user
 ENTRYPOINT ["flower"]

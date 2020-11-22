@@ -13,7 +13,6 @@ RUN pip install \
     pymongo
 
 COPY celeryconfig.py .
-COPY test_celery test_celery
 
 USER user
 ENTRYPOINT ["celery", "worker"]

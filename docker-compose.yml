@@ -24,6 +24,8 @@ services:
       args:
         - RABBITMQ_HOSTNAME=broker
         - RABBITMQ_NAME=rabbit
+    ports:
+      - 5672:5671
   results:
     image: mongo:latest
     environment:

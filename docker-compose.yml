@@ -1,29 +1,5 @@
 version: "2.4"
 services:
-  caller:
-    build:
-      context: ./celery
-      args:
-        - CELERY_VERSION=${CELERY_VERSION}
-        - CELERY_BROKER_URL=${CELERY_BROKER_URL}
-    entrypoint: ["python", "-u", "caller_entrypoint.py"]
-    command: ["--times=10"]
-    volumes:
-      - celery-src:/home/user/test_celery
-      - ./caller_entrypoint.py:/home/user/caller_entrypoint.py
-    depends_on:
-      - worker
-  worker:
-    build:
-      context: ./celery
-      args:
-        - CELERY_VERSION=${CELERY_VERSION}
-        - CELERY_BROKER_URL=${CELERY_BROKER_URL}
-    command: ["-A=test_celery", "--loglevel=INFO"]
-    volumes:
-      - celery-src:/home/user/test_celery
-    depends_on:
-      - broker
   broker:
     build:
       context: ./rabbitmq
@@ -32,32 +8,3 @@ services:
         - RABBITMQ_NAME=rabbit
     ports:
       - 5672:5671
-  results:
-    image: mongo:latest
-    environment:
-      MONGO_INITDB_ROOT_USERNAME: admin
-      MONGO_INITDB_ROOT_PASSWORD: password
-      MONGO_INITDB_DATABASE: celery-results
-    volumes:
-      - ./mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
-  monitor:
-    build:
-      context: ./flower
-      args:
-        - CELERY_VERSION=${CELERY_VERSION}
-        - CELERY_BROKER_URL=${CELERY_BROKER_URL}
-    command: ["--port=5555"]
-    volumes:
-      - celery-src:/home/user/test_celery
-    ports:
-      - 5555:5555
-    depends_on:
-      - worker
-
-volumes:
-  celery-src:
-    driver: local
-    driver_opts:
-      o: bind
-      type: none
-      device: ./test_celery

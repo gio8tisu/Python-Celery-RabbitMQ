@@ -2,17 +2,16 @@ version: "2.4"
 services:
   caller:
     build:
-      context: ./celery-worker
-      dockerfile: Dockerfile.caller
-      args:
-        - CELERY_VERSION=4.1.1
-        - CELERY_BROKER_URL=amqp://guest@broker:5671
+      context: ./celery
+    entrypoint: ["python", "-u", "caller_entrypoint.py"]
     command: ["--times=10"]
+    volumes:
+      - ./caller_entrypoint.py:/home/user/caller_entrypoint.py
     depends_on:
       - worker
   worker:
     build:
-      context: ./celery-worker
+      context: ./celery
       args:
         - CELERY_VERSION=4.1.1
         - CELERY_BROKER_URL=amqp://guest@broker:5671

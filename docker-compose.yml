@@ -1,18 +1,5 @@
 version: "2.2"
 services:
-  caller:
-    build:
-      context: ./celery
-      args:
-        - CELERY_VERSION=${CELERY_VERSION}
-        - CELERY_BROKER_URL=${CELERY_BROKER_URL}
-    entrypoint: ["python", "-u", "caller_entrypoint.py"]
-    command: ["--times=10"]
-    volumes:
-      - celery-src:/home/user/test_celery
-      - ./caller_entrypoint.py:/home/user/caller_entrypoint.py
-    depends_on:
-      - worker
   worker:
     build:
       context: ./celery

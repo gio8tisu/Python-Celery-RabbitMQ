@@ -1,4 +1,4 @@
-version: "2.4"
+version: "2.2"
 services:
   caller:
     build:
@@ -38,6 +38,8 @@ services:
       MONGO_INITDB_ROOT_USERNAME: admin
       MONGO_INITDB_ROOT_PASSWORD: password
       MONGO_INITDB_DATABASE: celery-results
+    ports:
+      - 27017:27017
     volumes:
       - ./mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
   monitor:
